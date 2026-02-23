@@ -46,9 +46,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFile, error }) => {
     return (
         <label
             htmlFor={inputId}
-            className={`cursor-pointer rounded-xl border-2 border-dashed p-12 text-center transition-colors duration-200 block ${isDragging
-                    ? "border-cyan-400 bg-cyan-500/10"
-                    : "border-slate-600 bg-slate-800/40 hover:bg-slate-800/60"
+            className={`cursor-pointer rounded-xl border-2 border-dashed p-8 sm:p-12 text-center transition-colors duration-200 block ${isDragging
+                ? "border-cyan-400 bg-cyan-500/10"
+                : "border-slate-600 bg-slate-800/40 hover:bg-slate-800/60"
                 }`}
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}

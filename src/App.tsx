@@ -18,43 +18,43 @@ export function App(): React.ReactElement {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#060d1a] text-white">
-      <div className="mx-auto w-full max-w-7xl px-4">
+      <div className="mx-auto w-full max-w-7xl px-3 sm:px-4">
         <AppHeader />
-        {entries === null ? (
-          <div className="mx-auto max-w-2xl space-y-4 pb-12">
-            <FileUpload onFile={loadFile} error={error} />
-            <LogFormatCard />
-          </div>
-        ) : (
-          <div className="space-y-4 pb-12">
-            <FileInfoBar
-              filename={filename ?? ""}
-              totalEntries={entries.length}
-              onReset={reset}
-            />
-            <LogFilters
-              availableLevels={filters.availableLevels}
-              availableClusterIds={filters.availableClusterIds}
-              selectedLevels={filters.selectedLevels}
-              selectedClusterIds={filters.selectedClusterIds}
-              textSearch={filters.textSearch}
-              fromDate={filters.fromDate}
-              toDate={filters.toDate}
-              toggleLevel={filters.toggleLevel}
-              toggleClusterId={filters.toggleClusterId}
-              setTextSearch={filters.setTextSearch}
-              setFromDate={filters.setFromDate}
-              setToDate={filters.setToDate}
-            />
-            <LogTable
-              entries={entries}
-              filteredEntries={filters.filteredEntries}
-              filename={filename ?? "logs"}
-              onRowClick={setSelectedEntry}
-            />
-          </div>
-        )}
       </div>
+      {entries === null ? (
+        <div className="mx-auto w-full max-w-2xl px-3 sm:px-4 space-y-4 pb-12">
+          <FileUpload onFile={loadFile} error={error} />
+          <LogFormatCard />
+        </div>
+      ) : (
+        <div className="w-full px-3 sm:px-4 space-y-4 pb-12">
+          <FileInfoBar
+            filename={filename ?? ""}
+            totalEntries={entries.length}
+            onReset={reset}
+          />
+          <LogFilters
+            availableLevels={filters.availableLevels}
+            availableClusterIds={filters.availableClusterIds}
+            selectedLevels={filters.selectedLevels}
+            selectedClusterIds={filters.selectedClusterIds}
+            textSearch={filters.textSearch}
+            fromDate={filters.fromDate}
+            toDate={filters.toDate}
+            toggleLevel={filters.toggleLevel}
+            toggleClusterId={filters.toggleClusterId}
+            setTextSearch={filters.setTextSearch}
+            setFromDate={filters.setFromDate}
+            setToDate={filters.setToDate}
+          />
+          <LogTable
+            entries={entries}
+            filteredEntries={filters.filteredEntries}
+            filename={filename ?? "logs"}
+            onRowClick={setSelectedEntry}
+          />
+        </div>
+      )}
 
       <LogDetailDrawer
         entry={selectedEntry}

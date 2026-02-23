@@ -43,8 +43,8 @@ export const LogFilters: React.FC<LogFiltersProps> = ({
 }) => (
     <div className="rounded-xl border border-slate-700 bg-slate-800/40 px-5 py-4 space-y-4">
         {/* Log Levels */}
-        <div className="flex flex-wrap items-center gap-3">
-            <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 sm:w-24 sm:shrink-0">
                 Log Levels
             </span>
             <div className="flex flex-wrap gap-2">
@@ -66,8 +66,8 @@ export const LogFilters: React.FC<LogFiltersProps> = ({
         </div>
 
         {/* Cluster IDs */}
-        <div className="flex flex-wrap items-center gap-3">
-            <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 sm:w-24 sm:shrink-0">
                 Cluster IDs
             </span>
             <div className="flex flex-wrap gap-2">
@@ -91,34 +91,34 @@ export const LogFilters: React.FC<LogFiltersProps> = ({
         </div>
 
         {/* Timeframe */}
-        <div className="flex flex-wrap items-center gap-3">
-            <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 sm:w-24 sm:shrink-0">
                 Timeframe
             </span>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                 <label className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500">From</span>
+                    <span className="w-6 text-xs text-slate-500">From</span>
                     <input
                         type="datetime-local"
                         value={fromDate}
                         onChange={(e) => setFromDate(e.target.value)}
-                        className="rounded-lg border border-slate-600 bg-slate-900/60 px-2 py-1 text-xs text-slate-300 focus:border-cyan-500 focus:outline-none [color-scheme:dark]"
+                        className="w-full sm:w-auto rounded-lg border border-slate-600 bg-slate-900/60 px-2 py-1 text-xs text-slate-300 focus:border-cyan-500 focus:outline-none [color-scheme:dark]"
                     />
                 </label>
                 <label className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500">To</span>
+                    <span className="w-6 text-xs text-slate-500">To</span>
                     <input
                         type="datetime-local"
                         value={toDate}
                         onChange={(e) => setToDate(e.target.value)}
-                        className="rounded-lg border border-slate-600 bg-slate-900/60 px-2 py-1 text-xs text-slate-300 focus:border-cyan-500 focus:outline-none [color-scheme:dark]"
+                        className="w-full sm:w-auto rounded-lg border border-slate-600 bg-slate-900/60 px-2 py-1 text-xs text-slate-300 focus:border-cyan-500 focus:outline-none [color-scheme:dark]"
                     />
                 </label>
                 {(fromDate || toDate) && (
                     <button
                         type="button"
                         onClick={() => { setFromDate(""); setToDate(""); }}
-                        className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
+                        className="self-start text-xs text-slate-500 hover:text-slate-300 transition-colors sm:self-auto"
                     >
                         Clear
                     </button>
@@ -127,11 +127,11 @@ export const LogFilters: React.FC<LogFiltersProps> = ({
         </div>
 
         {/* Text Search */}
-        <div className="flex items-center gap-3">
-            <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 sm:w-24 sm:shrink-0">
                 Search
             </span>
-            <div className="relative flex-1 max-w-sm">
+            <div className="relative flex-1 sm:max-w-sm">
                 <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
                 <input
                     type="text"

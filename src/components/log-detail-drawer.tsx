@@ -62,7 +62,7 @@ export const LogDetailDrawer: React.FC<LogDetailDrawerProps> = ({
                 role="dialog"
                 aria-modal="true"
                 aria-label="Log entry details"
-                className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-[48vw] flex-col border-l border-slate-700 bg-[#0a1628] shadow-2xl transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+                className={`fixed right-0 top-0 z-50 flex h-full w-full flex-col border-l border-slate-700 bg-[#0a1628] shadow-2xl transition-transform duration-300 ease-in-out sm:max-w-lg md:max-w-[48vw] ${isOpen ? "translate-x-0" : "translate-x-full"}`}
             >
                 {isOpen && entry && (
                     <>
