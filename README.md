@@ -1,73 +1,112 @@
-# React + TypeScript + Vite
+# Log Compiler
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A browser-based tool for uploading and analyzing **NDJSON log files**. Load a `.log`, `.txt`, or `.json` file and interactively explore entries through filters, sorting, and a detail panel — all without sending data to any server.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Screenshots
 
-## React Compiler
+### Empty state — file upload
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![Empty state](docs/screenshot-empty-state.png)
 
-## Expanding the ESLint configuration
+### Loaded state — log table with filters
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+![Loaded state](docs/screenshot-loaded-state.png)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Row detail drawer
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+![Detail drawer](docs/screenshot-detail-drawer.png)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Features
+
+- **Drag-and-drop or click-to-browse** file upload (`.log`, `.txt`, `.json`).
+- Parses **NDJSON** (newline-delimited JSON) files entirely in the browser.
+- **Log table** with columns: Timestamp, #, Level, Method, Endpoint, Cluster ID, Request ID, Message.
+- **Sortable timestamp** column (ascending / descending toggle).
+- **Real-time filters**:
+  - Log level toggle buttons (`info`, `error`, `warning`, `debug`).
+  - Cluster ID toggle buttons (auto-generated from file contents).
+  - Timeframe range pickers (From / To, 12-hour AM/PM format).
+  - Free-text search across all fields.
+- **Row detail drawer** — click any row to open a side panel with the full entry.
+- **Download** button exports the currently filtered entries as NDJSON (`.log`).
+- Fully **dark-themed** UI.
+
+---
+
+## Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| [React 19](https://react.dev) | UI framework |
+| [TypeScript](https://www.typescriptlang.org) | Static typing |
+| [Tailwind CSS v4](https://tailwindcss.com) | Utility-first styling |
+| [Vite](https://vite.dev) | Dev server & bundler |
+| [Biome.js](https://biomejs.dev) | Linting & formatting |
+| [lucide-react](https://lucide.dev) | Icon library |
+
+---
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Expected Log Format
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Files must contain one valid JSON object per line (NDJSON). Each entry should match the following schema:
+
+```json
+{
+  "clusterId": "Worker 20",
+  "endpoint": "/ccstorex/custom/v1/bopis_order",
+  "level": "info",
+  "message": "",
+  "requestId": "",
+  "requestMethod": "POST",
+  "timestamp": "2025-09-05T14:25:43.179Z"
+}
 ```
+
+Accepted `level` values: `info`, `error`, `warning`, `debug`.
+
+---
+
+## Project Structure
+
+```
+src/
+  components/       # UI components (header, table, drawer, filters…)
+  hooks/            # Custom hooks (useLogFile, useLogFilters)
+  types.ts          # Shared TypeScript types
+  App.tsx
+  main.tsx
+docs/               # Requirements and screenshots
+```
+
+---
+
+## Code Quality
+
+```bash
+npm run lint      # Run Biome linter
+npm run format    # Format with Biome
+npm run check     # Lint + format (auto-fix)
+```
+
+---
+
+Made with ♥ by Claude
