@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Download } from "lucide-react";
 import type React from "react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { LogEntry } from "../types";
 
 type SortDir = "asc" | "desc" | "none";
@@ -8,6 +8,7 @@ type SortDir = "asc" | "desc" | "none";
 type LogTableProps = {
     entries: LogEntry[];
     filteredEntries: LogEntry[];
+    filename: string;
     onRowClick: (entry: LogEntry) => void;
 };
 
@@ -23,6 +24,7 @@ const fallbackBadge = "bg-slate-600/40 text-slate-400 border border-slate-500/40
 export const LogTable: React.FC<LogTableProps> = ({
     entries,
     filteredEntries,
+    filename,
     onRowClick,
 }) => {
     const [sortDir, setSortDir] = useState<SortDir>("none");
@@ -42,19 +44,40 @@ export const LogTable: React.FC<LogTableProps> = ({
         );
     };
 
+    const handleDownload = useCallback(() => {
+        const content = filteredEntries.map((e) => JSON.stringify(e)).join("\n");
+        const blob = new Blob([content], { type: "application/x-ndjson" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const baseName = filename.replace(/\.[^.]+$/, "");
+        a.href = url;
+        a.download = `${baseName}-filtered.log`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }, [filteredEntries, filename]);
+
     const SortIcon =
         sortDir === "asc" ? ArrowUp : sortDir === "desc" ? ArrowDown : ArrowUpDown;
 
     return (
         <div className="flex flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800/40">
             {/* Entry count bar */}
-            <div className="flex items-center border-b border-slate-700 px-4 py-3">
+            <div className="flex items-center justify-between border-b border-slate-700 px-4 py-3">
                 <span className="text-sm text-slate-400">
                     <span className="font-semibold text-white">{filteredEntries.length}</span>{" "}
                     of{" "}
                     <span className="font-semibold text-white">{entries.length}</span>{" "}
                     entries
                 </span>
+                <button
+                    type="button"
+                    onClick={handleDownload}
+                    disabled={filteredEntries.length === 0}
+                    className="flex items-center gap-1.5 rounded-lg border border-slate-600 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-cyan-400 hover:text-cyan-400 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                    <Download className="h-3.5 w-3.5" />
+                    Download
+                </button>
             </div>
 
             {/* Table */}
